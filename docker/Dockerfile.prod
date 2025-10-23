@@ -8,7 +8,7 @@ FROM php:8.4-fpm
 # ---- Copy Composer binary ----
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
-# ---- System & PHP Extensions ----
+# ---- Install system deps & PHP extensions ----
 RUN apt-get update && apt-get install -y \
     libpq-dev libzip-dev zip unzip git curl \
  && docker-php-ext-install pdo pdo_pgsql pdo_mysql zip opcache \
@@ -17,28 +17,19 @@ RUN apt-get update && apt-get install -y \
 # ---- Set working directory ----
 WORKDIR /var/www/html
 
-# ---- Copy composer files first (for caching) ----
-COPY ./src/composer.json ./src/composer.lock ./
-
-# ---- Install dependencies ----
-RUN COMPOSER_MEMORY_LIMIT=-1 composer install --no-dev --optimize-autoloader
-
-# ---- Copy application source ----
+# ---- Copy Laravel source code ----
 COPY ./src ./
+
+# ---- Install composer dependencies ----
+RUN COMPOSER_MEMORY_LIMIT=-1 composer install --no-dev --optimize-autoloader
 
 # ---- Copy entrypoint script ----
 COPY ./docker/entrypoint.sh /usr/local/bin/entrypoint.sh
 RUN chmod +x /usr/local/bin/entrypoint.sh
 
-# ---- Set permissions ----
+# ---- Permissions ----
 RUN chmod -R 775 storage bootstrap/cache || true
 
-# ---- Expose FPM port ----
+# ---- Expose port & start app ----
 EXPOSE 9000
-
-# ---- Healthcheck (optional) ----
-# HEALTHCHECK --interval=30s --timeout=5s --start-period=15s \
-#   CMD curl -f http://localhost/health || exit 1
-
-# ---- Start container ----
 ENTRYPOINT ["entrypoint.sh"]
