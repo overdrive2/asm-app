@@ -14,7 +14,11 @@ RUN apt-get update && apt-get install -y \
     git \
     curl \
     && docker-php-ext-install pdo pdo_pgsql pdo_mysql zip opcache \
-    && docker-php-ext-enable opcache
+    && docker-php-ext-enable opcache \
+    && echo "🧩 Composer diagnose..." \
+    && composer diagnose || true \
+    && echo "🚧 Installing dependencies..." \
+    && COMPOSER_MEMORY_LIMIT=-1 composer install --no-dev --optimize-autoloader --verbose
 
 # ---- Composer ----
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
