@@ -22,11 +22,14 @@ COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 # ---- Set working directory ----
 WORKDIR /var/www/html
 
-# ---- Copy application source ----
-COPY ./src /var/www/html
+# ---- Copy composer files first (for caching) ----
+COPY ./src/composer.json ./src/composer.lock ./
 
 # ---- Install dependencies ----
 RUN composer install --no-dev --optimize-autoloader
+
+# ---- Copy application source ----
+COPY ./src ./
 
 # ---- Copy entrypoint script ----
 COPY ./docker/entrypoint.sh /usr/local/bin/entrypoint.sh
