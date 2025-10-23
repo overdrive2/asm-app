@@ -1,25 +1,46 @@
-# ==========================
-# PHP 8.4 Production Image
-# ==========================
+# ================================================
+# 🐘 PHP 8.4 Laravel Production Dockerfile
+# ================================================
+
+# ---- Base Image ----
 FROM php:8.4-fpm
 
+# ---- System & PHP Extensions ----
 RUN apt-get update && apt-get install -y \
-    libpq-dev libzip-dev zip unzip git curl \
+    libpq-dev \
+    libzip-dev \
+    zip \
+    unzip \
+    git \
+    curl \
     && docker-php-ext-install pdo pdo_pgsql pdo_mysql zip opcache \
     && docker-php-ext-enable opcache
 
+# ---- Composer ----
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
+
+# ---- Set working directory ----
 WORKDIR /var/www/html
 
-# copy code จาก build context
+# ---- Copy application source ----
 COPY ./src /var/www/html
 
-# install composer (no-dev)
-RUN composer install --no-dev --optimize-autoloader \
- && php artisan config:cache \
- && php artisan route:cache \
- && php artisan view:cache \
- && chmod -R 775 storage bootstrap/cache
+# ---- Install dependencies ----
+RUN composer install --no-dev --optimize-autoloader
 
+# ---- Copy entrypoint script ----
+COPY ./docker/entrypoint.sh /usr/local/bin/entrypoint.sh
+RUN chmod +x /usr/local/bin/entrypoint.sh
+
+# ---- Permissions ----
+RUN chmod -R 775 storage bootstrap/cache || true
+
+# ---- Expose FPM port ----
 EXPOSE 9000
-CMD ["php-fpm"]
+
+# ---- Healthcheck (optional) ----
+# HEALTHCHECK --interval=30s --timeout=5s --start-period=15s \
+#   CMD curl -f http://localhost/health || exit 1
+
+# ---- Start container ----
+ENTRYPOINT ["entrypoint.sh"]
