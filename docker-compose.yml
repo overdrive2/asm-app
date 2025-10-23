@@ -1,0 +1,64 @@
+services:
+  web:
+    image: nginx:latest
+    container_name: php_webserver
+    ports:
+      - "8080:80"
+    volumes:
+      - ./src:/var/www/html
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - app
+    networks:
+      - webnet
+
+  # ===========================
+  # 🐘 PHP-FPM (PHP 8.4)
+  # ===========================
+  app:
+    image: overdrive2/php_webserver:latest    # ✅ ใช้ image ที่ build และ push ไว้แล้ว
+    container_name: asm_app
+    restart: always
+    env_file: .env
+    networks:
+      - webnet
+    depends_on:
+      - postgres
+
+  # ===========================
+  # 🐘 PostgreSQL 18
+  # ===========================
+  postgres:
+    image: postgres:18
+    container_name: php_postgres
+    restart: always
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: app_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./init:/docker-entrypoint-initdb.d
+      - pg_data:/var/lib/postgresql
+    networks:
+      - webnet
+      
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: php_pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@local.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    ports:
+      - "8081:80"
+    depends_on:
+      - postgres
+    networks:
+      - webnet
+
+networks:
+  webnet:
+
+volumes:
+  pg_data:
