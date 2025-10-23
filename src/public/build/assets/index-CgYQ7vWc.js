@@ -1,0 +1,16 @@
+import{j as e,H as s}from"./app-D9K0lIg2.js";import{c as t,B as a,a as r}from"./button-Cq0MOVKo.js";import{A as o}from"./app-layout-DjmuWQS6.js";import{d as i}from"./index-CoNroDVL.js";import{d as n}from"./index-BJM0ycyN.js";import{p as l}from"./index-Dv59kq7C.js";import{v as p}from"./index-W0y-KShr.js";/* empty css            */import"./index-Ct_SG2XW.js";import"./index-BSy4OLH8.js";import"./index-BeC5lqBz.js";import"./index-CMWG4mbA.js";import"./app-img-logo-DWWu-s2u.js";/**
+ * @license lucide-react v0.475.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */const h=[["path",{d:"M16 20V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16",key:"jecpp"}],["rect",{width:"20",height:"14",x:"2",y:"6",rx:"2",key:"i6l2r4"}]],c=t("Briefcase",h);/**
+ * @license lucide-react v0.475.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */const d=[["path",{d:"M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z",key:"1b4qmf"}],["path",{d:"M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2",key:"i71pzd"}],["path",{d:"M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2",key:"10jefs"}],["path",{d:"M10 6h4",key:"1itunk"}],["path",{d:"M10 10h4",key:"tcdvrf"}],["path",{d:"M10 14h4",key:"kelpxr"}],["path",{d:"M10 18h4",key:"1ulq68"}]],x=t("Building2",d);/**
+ * @license lucide-react v0.475.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */const f=[["path",{d:"m2 7 4.41-4.41A2 2 0 0 1 7.83 2h8.34a2 2 0 0 1 1.42.59L22 7",key:"ztvudi"}],["path",{d:"M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8",key:"1b2hhj"}],["path",{d:"M15 22v-4a2 2 0 0 0-2-2h-2a2 2 0 0 0-2 2v4",key:"2ebpfo"}],["path",{d:"M2 7h20",key:"1fcdvo"}],["path",{d:"M22 7v3a2 2 0 0 1-2 2a2.7 2.7 0 0 1-1.59-.63.7.7 0 0 0-.82 0A2.7 2.7 0 0 1 16 12a2.7 2.7 0 0 1-1.59-.63.7.7 0 0 0-.82 0A2.7 2.7 0 0 1 12 12a2.7 2.7 0 0 1-1.59-.63.7.7 0 0 0-.82 0A2.7 2.7 0 0 1 8 12a2.7 2.7 0 0 1-1.59-.63.7.7 0 0 0-.82 0A2.7 2.7 0 0 1 4 12a2 2 0 0 1-2-2V7",key:"6c3vgh"}]],m=t("Store",f),u=[{title:"Dashboard",href:i().url},{title:"Repository",href:""}];function D(){return e.jsxs(o,{breadcrumbs:u,children:[e.jsx(s,{title:"Dashboard"}),e.jsx("div",{className:"flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4",children:e.jsxs("div",{className:"auto-rows-min gap-4 flex flex-wrap",children:[e.jsx("a",{href:p.index().url,rel:"noopener noreferrer",children:e.jsxs(a,{className:r("flex h-auto flex-col items-center justify-center gap-1 py-3 px-4 w-24"),variant:"outline",children:[e.jsx(m,{className:"h-5 w-5"}),e.jsx("span",{className:"text-xs",children:"Vendors"})]})}),e.jsx("a",{href:l.index().url,rel:"noopener noreferrer",children:e.jsxs(a,{className:r("flex h-auto flex-col items-center justify-center gap-1 py-3 px-4 w-24"),variant:"outline",children:[e.jsx(c,{className:"h-5 w-5"}),e.jsx("span",{className:"text-xs",children:"Position"})]})}),e.jsx("a",{href:n.index().url,rel:"noopener noreferrer",children:e.jsxs(a,{className:r("flex h-auto flex-col items-center justify-center gap-1 py-3 px-4 w-24"),variant:"outline",children:[e.jsx(x,{className:"h-5 w-5"}),e.jsx("span",{className:"text-xs",children:"Department"})]})})]})})]})}export{D as default};
