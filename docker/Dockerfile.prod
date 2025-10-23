@@ -1,0 +1,25 @@
+# ==========================
+# PHP 8.4 Production Image
+# ==========================
+FROM php:8.4-fpm
+
+RUN apt-get update && apt-get install -y \
+    libpq-dev libzip-dev zip unzip git curl \
+    && docker-php-ext-install pdo pdo_pgsql pdo_mysql zip opcache \
+    && docker-php-ext-enable opcache
+
+COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
+WORKDIR /var/www/html
+
+# copy code จาก build context
+COPY ./src /var/www/html
+
+# install composer (no-dev)
+RUN composer install --no-dev --optimize-autoloader \
+ && php artisan config:cache \
+ && php artisan route:cache \
+ && php artisan view:cache \
+ && chmod -R 775 storage bootstrap/cache
+
+EXPOSE 9000
+CMD ["php-fpm"]
