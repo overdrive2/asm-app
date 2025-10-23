@@ -5,23 +5,14 @@
 # ---- Base Image ----
 FROM php:8.4-fpm
 
+# ---- Copy Composer binary ----
+COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
+
 # ---- System & PHP Extensions ----
 RUN apt-get update && apt-get install -y \
-    libpq-dev \
-    libzip-dev \
-    zip \
-    unzip \
-    git \
-    curl \
-    && docker-php-ext-install pdo pdo_pgsql pdo_mysql zip opcache \
-    && docker-php-ext-enable opcache \
-    && echo "🧩 Composer diagnose..." \
-    && composer diagnose || true \
-    && echo "🚧 Installing dependencies..." \
-    && COMPOSER_MEMORY_LIMIT=-1 composer install --no-dev --optimize-autoloader --verbose
-
-# ---- Composer ----
-COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
+    libpq-dev libzip-dev zip unzip git curl \
+ && docker-php-ext-install pdo pdo_pgsql pdo_mysql zip opcache \
+ && docker-php-ext-enable opcache
 
 # ---- Set working directory ----
 WORKDIR /var/www/html
@@ -30,7 +21,7 @@ WORKDIR /var/www/html
 COPY ./src/composer.json ./src/composer.lock ./
 
 # ---- Install dependencies ----
-RUN composer install --no-dev --optimize-autoloader
+RUN COMPOSER_MEMORY_LIMIT=-1 composer install --no-dev --optimize-autoloader
 
 # ---- Copy application source ----
 COPY ./src ./
@@ -39,7 +30,7 @@ COPY ./src ./
 COPY ./docker/entrypoint.sh /usr/local/bin/entrypoint.sh
 RUN chmod +x /usr/local/bin/entrypoint.sh
 
-# ---- Permissions ----
+# ---- Set permissions ----
 RUN chmod -R 775 storage bootstrap/cache || true
 
 # ---- Expose FPM port ----
